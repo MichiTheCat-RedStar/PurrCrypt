@@ -1,4 +1,4 @@
-from random import seed, random
+from random import seed, getrandbits
 
 def purr_encode(*text:str) -> str:
     "Позволяет превращать текст в Purr"
@@ -25,7 +25,7 @@ def purr_decode(text:str) -> str:
         else: raise ValueError('Недопустимый символ')
     byte_len = (len(result) + 7) // 8
     result = int(value, 2).to_bytes(byte_len, 'big')
-    return str(result)[2:-1]
+    return result.decode('utf-8')
 
 
 def purr_encrypt(*text:str, key=42) -> str:
@@ -38,15 +38,16 @@ def purr_encrypt(*text:str, key=42) -> str:
     result = 'Pu'
     for num in value:
         if num == '1':
-            if round(random()):
+            if getrandbits(1):
                 result += 'R'
             else:
                 result += 'r'
         else:
-            if round(random()):
+            if getrandbits(1):
                 result += 'r'
             else:
                 result += 'R'
+    seed(None)
     return result
 
 
@@ -59,24 +60,25 @@ def purr_decrypt(text:str, key=42) -> str:
     value = ''
     for sym in result:
         if sym == 'R':
-            if round(random()):
+            if getrandbits(1):
                 value += '1'
             else:
                 value += '0'
         elif sym == 'r':
-            if round(random()):
+            if getrandbits(1):
                 value += '0'
             else:
                 value += '1'
         else:
             raise ValueError('Недопустимый символ')
+    seed(None)
     byte_len = (len(result) + 7) // 8
     result = int(value, 2).to_bytes(byte_len, 'big')
-    return str(result)[2:-1]
+    return result.decode('utf-8')
 
 
 if __name__ == '__main__':
-
+    
     TEXT = 'Meowdy PurrCrypt!'
     print('Было:', TEXT)
 
