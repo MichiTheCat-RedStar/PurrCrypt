@@ -1,3 +1,8 @@
+# Данный код распространяется по MIT лицензии автром MichiTheCat
+# Не видитесь на проекты, выдающие себя за оригинал или подобное
+# Оригинал кода https://github.com/MichiTheCat-RedStar/PurrCrypt
+
+
 from random import seed, getrandbits
 
 def purr_encode(*text:str) -> str:
